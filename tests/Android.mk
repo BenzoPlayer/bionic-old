@@ -118,6 +118,13 @@ libBionicStandardTests_src_files := \
 libBionicStandardTests_cflags := \
     $(test_cflags) \
 
+# b/17163651, clang has wrong long double size for x86 targets.
+ifneq (,$(filter $(TARGET_ARCH),x86 x86_64))
+ifeq ($(USE_CLANG_PLATFORM_BUILD),true)
+  libBionicStandardTests_cflags += -DSKIP_LONG_DOUBLE_TESTS
+endif
+endif
+
 ifeq ($(MALLOC_IMPL),dlmalloc)
   libBionicStandardTests_cflags += -DUSE_DLMALLOC
 else

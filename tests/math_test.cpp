@@ -100,15 +100,21 @@ TEST(math, fpclassify) {
   ASSERT_EQ(FP_INFINITE, fpclassify(INFINITY));
   ASSERT_EQ(FP_INFINITE, fpclassify(HUGE_VALF));
   ASSERT_EQ(FP_INFINITE, fpclassify(HUGE_VAL));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(FP_INFINITE, fpclassify(HUGE_VALL));
+#endif
 
   ASSERT_EQ(FP_NAN, fpclassify(nanf("")));
   ASSERT_EQ(FP_NAN, fpclassify(nan("")));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(FP_NAN, fpclassify(nanl("")));
+#endif
 
   ASSERT_EQ(FP_NORMAL, fpclassify(1.0f));
   ASSERT_EQ(FP_NORMAL, fpclassify(1.0));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(FP_NORMAL, fpclassify(1.0L));
+#endif
 
   ASSERT_EQ(FP_SUBNORMAL, fpclassify(float_subnormal()));
   ASSERT_EQ(FP_SUBNORMAL, fpclassify(double_subnormal()));
@@ -116,40 +122,56 @@ TEST(math, fpclassify) {
 
   ASSERT_EQ(FP_ZERO, fpclassify(0.0f));
   ASSERT_EQ(FP_ZERO, fpclassify(0.0));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(FP_ZERO, fpclassify(0.0L));
+#endif
 }
 
 TEST(math, isfinite) {
   ASSERT_TRUE(test_capture_isfinite(123.0f));
   ASSERT_TRUE(test_capture_isfinite(123.0));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_TRUE(test_capture_isfinite(123.0L));
+#endif
   ASSERT_FALSE(test_capture_isfinite(HUGE_VALF));
   ASSERT_FALSE(test_capture_isfinite(HUGE_VAL));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_FALSE(test_capture_isfinite(HUGE_VALL));
+#endif
 }
 
 TEST(math, isinf) {
   ASSERT_FALSE(test_capture_isinf(123.0f));
   ASSERT_FALSE(test_capture_isinf(123.0));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_FALSE(test_capture_isinf(123.0L));
+#endif
   ASSERT_TRUE(test_capture_isinf(HUGE_VALF));
   ASSERT_TRUE(test_capture_isinf(HUGE_VAL));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_TRUE(test_capture_isinf(HUGE_VALL));
+#endif
 }
 
 TEST(math, isnan) {
   ASSERT_FALSE(test_capture_isnan(123.0f));
   ASSERT_FALSE(test_capture_isnan(123.0));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_FALSE(test_capture_isnan(123.0L));
+#endif
   ASSERT_TRUE(test_capture_isnan(nanf("")));
   ASSERT_TRUE(test_capture_isnan(nan("")));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_TRUE(test_capture_isnan(nanl("")));
+#endif
 }
 
 TEST(math, isnormal) {
   ASSERT_TRUE(isnormal(123.0f));
   ASSERT_TRUE(isnormal(123.0));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_TRUE(isnormal(123.0L));
+#endif
   ASSERT_FALSE(isnormal(float_subnormal()));
   ASSERT_FALSE(isnormal(double_subnormal()));
   ASSERT_FALSE(isnormal(ldouble_subnormal()));
@@ -159,15 +181,21 @@ TEST(math, isnormal) {
 TEST(math, signbit) {
   ASSERT_EQ(0, test_capture_signbit(0.0f));
   ASSERT_EQ(0, test_capture_signbit(0.0));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(0, test_capture_signbit(0.0L));
+#endif
 
   ASSERT_EQ(0, test_capture_signbit(1.0f));
   ASSERT_EQ(0, test_capture_signbit(1.0));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(0, test_capture_signbit(1.0L));
+#endif
 
   ASSERT_NE(0, test_capture_signbit(-1.0f));
   ASSERT_NE(0, test_capture_signbit(-1.0));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_NE(0, test_capture_signbit(-1.0L));
+#endif
 }
 
 TEST(math, __fpclassifyd) {
@@ -190,11 +218,15 @@ TEST(math, __fpclassifyf) {
 }
 
 TEST(math, __fpclassifyl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   EXPECT_EQ(FP_INFINITE, __fpclassifyl(HUGE_VALL));
   EXPECT_EQ(FP_NAN, __fpclassifyl(nanl("")));
   EXPECT_EQ(FP_NORMAL, __fpclassifyl(1.0L));
+#endif
   EXPECT_EQ(FP_SUBNORMAL, __fpclassifyl(ldouble_subnormal()));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   EXPECT_EQ(FP_ZERO, __fpclassifyl(0.0L));
+#endif
 }
 
 TEST(math, finitef) {
@@ -222,8 +254,10 @@ TEST(math, __isfinitel) {
 #if defined(__GLIBC__)
 #define __isfinitel __finitel
 #endif
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_TRUE(__isfinitel(123.0L));
   ASSERT_FALSE(__isfinitel(HUGE_VALL));
+#endif
 }
 
 TEST(math, finite) {
@@ -243,8 +277,10 @@ TEST(math, __isinff) {
 }
 
 TEST(math, __isinfl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_FALSE(__isinfl(123.0L));
   ASSERT_TRUE(__isinfl(HUGE_VALL));
+#endif
 }
 
 TEST(math, isnan_function) {
@@ -259,8 +295,10 @@ TEST(math, __isnanf) {
 }
 
 TEST(math, __isnanl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_FALSE(__isnanl(123.0L));
   ASSERT_TRUE(__isnanl(nanl("")));
+#endif
 }
 
 TEST(math, isnanf) {
@@ -287,7 +325,7 @@ TEST(math, __isnormalf) {
 }
 
 TEST(math, __isnormall) {
-#if defined(__BIONIC__)
+#if defined(__BIONIC__) && !defined(SKIP_LONG_DOUBLE_TESTS)
   ASSERT_TRUE(__isnormall(123.0L));
   ASSERT_FALSE(__isnormall(ldouble_subnormal()));
 #else // __BIONIC__
@@ -308,9 +346,11 @@ TEST(math, __signbitf) {
 }
 
 TEST(math, __signbitl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(0L, __signbitl(0.0L));
   ASSERT_EQ(0L, __signbitl(1.0L));
   ASSERT_NE(0L, __signbitl(-1.0L));
+#endif
 }
 
 TEST(math, acos) {
@@ -322,7 +362,9 @@ TEST(math, acosf) {
 }
 
 TEST(math, acosl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(M_PI/2.0L, acosl(0.0L));
+#endif
 }
 
 TEST(math, asin) {
@@ -334,7 +376,9 @@ TEST(math, asinf) {
 }
 
 TEST(math, asinl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, asinl(0.0L));
+#endif
 }
 
 TEST(math, atan) {
@@ -346,7 +390,9 @@ TEST(math, atanf) {
 }
 
 TEST(math, atanl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, atanl(0.0L));
+#endif
 }
 
 TEST(math, atan2) {
@@ -358,7 +404,9 @@ TEST(math, atan2f) {
 }
 
 TEST(math, atan2l) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, atan2l(0.0L, 0.0L));
+#endif
 }
 
 TEST(math, cos) {
@@ -370,7 +418,9 @@ TEST(math, cosf) {
 }
 
 TEST(math, cosl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(1.0L, cosl(0.0L));
+#endif
 }
 
 TEST(math, sin) {
@@ -382,7 +432,9 @@ TEST(math, sinf) {
 }
 
 TEST(math, sinl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, sinl(0.0L));
+#endif
 }
 
 TEST(math, tan) {
@@ -394,7 +446,9 @@ TEST(math, tanf) {
 }
 
 TEST(math, tanl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, tanl(0.0L));
+#endif
 }
 
 TEST(math, acosh) {
@@ -406,7 +460,9 @@ TEST(math, acoshf) {
 }
 
 TEST(math, acoshl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, acoshl(1.0L));
+#endif
 }
 
 TEST(math, asinh) {
@@ -418,7 +474,9 @@ TEST(math, asinhf) {
 }
 
 TEST(math, asinhl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, asinhl(0.0L));
+#endif
 }
 
 TEST(math, atanh) {
@@ -430,7 +488,9 @@ TEST(math, atanhf) {
 }
 
 TEST(math, atanhl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, atanhl(0.0L));
+#endif
 }
 
 TEST(math, cosh) {
@@ -442,7 +502,9 @@ TEST(math, coshf) {
 }
 
 TEST(math, coshl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(1.0L, coshl(0.0L));
+#endif
 }
 
 TEST(math, sinh) {
@@ -454,7 +516,9 @@ TEST(math, sinhf) {
 }
 
 TEST(math, sinhl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, sinhl(0.0L));
+#endif
 }
 
 TEST(math, tanh) {
@@ -466,7 +530,9 @@ TEST(math, tanhf) {
 }
 
 TEST(math, tanhl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, tanhl(0.0L));
+#endif
 }
 
 TEST(math, log) {
@@ -478,7 +544,9 @@ TEST(math, logf) {
 }
 
 TEST(math, logl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(1.0L, logl(M_E));
+#endif
 }
 
 TEST(math, log2) {
@@ -490,7 +558,9 @@ TEST(math, log2f) {
 }
 
 TEST(math, log2l) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(12.0L, log2l(4096.0L));
+#endif
 }
 
 TEST(math, log10) {
@@ -502,7 +572,9 @@ TEST(math, log10f) {
 }
 
 TEST(math, log10l) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(3.0L, log10l(1000.0L));
+#endif
 }
 
 TEST(math, cbrt) {
@@ -514,7 +586,9 @@ TEST(math, cbrtf) {
 }
 
 TEST(math, cbrtl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(3.0L, cbrtl(27.0L));
+#endif
 }
 
 TEST(math, sqrt) {
@@ -526,7 +600,9 @@ TEST(math, sqrtf) {
 }
 
 TEST(math, sqrtl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(2.0L, sqrtl(4.0L));
+#endif
 }
 
 TEST(math, exp) {
@@ -540,8 +616,10 @@ TEST(math, expf) {
 }
 
 TEST(math, expl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(1.0L, expl(0.0L));
   ASSERT_DOUBLE_EQ(M_E, expl(1.0L));
+#endif
 }
 
 TEST(math, exp2) {
@@ -553,7 +631,9 @@ TEST(math, exp2f) {
 }
 
 TEST(math, exp2l) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(8.0L, exp2l(3.0L));
+#endif
 }
 
 TEST(math, expm1) {
@@ -565,7 +645,9 @@ TEST(math, expm1f) {
 }
 
 TEST(math, expm1l) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(M_E - 1.0L, expm1l(1.0L));
+#endif
 }
 
 TEST(math, pow) {
@@ -583,10 +665,12 @@ TEST(math, powf) {
 }
 
 TEST(math, powl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_TRUE(__isnanl(powl(nanl(""), 3.0L)));
   ASSERT_DOUBLE_EQ(1.0L, (powl(1.0L, nanl(""))));
   ASSERT_TRUE(__isnanl(powl(2.0L, nanl(""))));
   ASSERT_DOUBLE_EQ(8.0L, powl(2.0L, 3.0L));
+#endif
 }
 
 TEST(math, ceil) {
@@ -598,7 +682,9 @@ TEST(math, ceilf) {
 }
 
 TEST(math, ceill) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(1.0L, ceill(0.9L));
+#endif
 }
 
 TEST(math, floor) {
@@ -610,7 +696,9 @@ TEST(math, floorf) {
 }
 
 TEST(math, floorl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(1.0L, floorl(1.1L));
+#endif
 }
 
 TEST(math, fabs) {
@@ -622,7 +710,9 @@ TEST(math, fabsf) {
 }
 
 TEST(math, fabsl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(1.0L, fabsl(-1.0L));
+#endif
 }
 
 TEST(math, ldexp) {
@@ -634,7 +724,9 @@ TEST(math, ldexpf) {
 }
 
 TEST(math, ldexpl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(16.0L, ldexpl(2.0L, 3.0));
+#endif
 }
 
 TEST(math, fmod) {
@@ -646,7 +738,9 @@ TEST(math, fmodf) {
 }
 
 TEST(math, fmodl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(2.0L, fmodl(12.0L, 10.0L));
+#endif
 }
 
 TEST(math, remainder) {
@@ -658,7 +752,9 @@ TEST(math, remainderf) {
 }
 
 TEST(math, remainderl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(2.0L, remainderl(12.0L, 10.0L));
+#endif
 }
 
 TEST(math, drem) {
@@ -682,9 +778,11 @@ TEST(math, fmaxf) {
 }
 
 TEST(math, fmaxl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(12.0L, fmaxl(12.0L, 10.0L));
   ASSERT_DOUBLE_EQ(12.0L, fmaxl(12.0L, nanl("")));
   ASSERT_DOUBLE_EQ(12.0L, fmaxl(nanl(""), 12.0L));
+#endif
 }
 
 TEST(math, fmin) {
@@ -700,9 +798,11 @@ TEST(math, fminf) {
 }
 
 TEST(math, fminl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(10.0L, fminl(12.0L, 10.0L));
   ASSERT_DOUBLE_EQ(12.0L, fminl(12.0L, nanl("")));
   ASSERT_DOUBLE_EQ(12.0L, fminl(nanl(""), 12.0L));
+#endif
 }
 
 TEST(math, fma) {
@@ -714,7 +814,9 @@ TEST(math, fmaf) {
 }
 
 TEST(math, fmal) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(10.0L, fmal(2.0L, 3.0L, 4.0L));
+#endif
 }
 
 TEST(math, hypot) {
@@ -726,7 +828,9 @@ TEST(math, hypotf) {
 }
 
 TEST(math, hypotl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(5.0L, hypotl(3.0L, 4.0L));
+#endif
 }
 
 TEST(math, erf) {
@@ -738,7 +842,9 @@ TEST(math, erff) {
 }
 
 TEST(math, erfl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.84270079294971489L, erfl(1.0L));
+#endif
 }
 
 TEST(math, erfc) {
@@ -750,7 +856,9 @@ TEST(math, erfcf) {
 }
 
 TEST(math, erfcl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.15729920705028513l, erfcl(1.0L));
+#endif
 }
 
 TEST(math, lrint) {
@@ -761,20 +869,28 @@ TEST(math, lrint) {
   fesetround(FE_UPWARD); // lrint/lrintf/lrintl obey the rounding mode.
   ASSERT_EQ(1235, lrint(1234.01));
   ASSERT_EQ(1235, lrintf(1234.01f));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(1235, lrintl(1234.01L));
+#endif
   fesetround(FE_TOWARDZERO); // lrint/lrintf/lrintl obey the rounding mode.
   ASSERT_EQ(1234, lrint(1234.01));
   ASSERT_EQ(1234, lrintf(1234.01f));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(1234, lrintl(1234.01L));
+#endif
 
   fesetround(FE_UPWARD); // llrint/llrintf/llrintl obey the rounding mode.
   ASSERT_EQ(1235L, llrint(1234.01));
   ASSERT_EQ(1235L, llrintf(1234.01f));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(1235L, llrintl(1234.01L));
+#endif
   fesetround(FE_TOWARDZERO); // llrint/llrintf/llrintl obey the rounding mode.
   ASSERT_EQ(1234L, llrint(1234.01));
   ASSERT_EQ(1234L, llrintf(1234.01f));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(1234L, llrintl(1234.01L));
+#endif
 }
 
 TEST(math, rint) {
@@ -795,16 +911,20 @@ TEST(math, rint) {
   ASSERT_EQ(1235.0f, rintf(1234.01f));
   ASSERT_TRUE((fetestexcept(FE_ALL_EXCEPT) & FE_INEXACT) != 0);
 
+#ifndef SKIP_LONG_DOUBLE_TESTS
   feclearexcept(FE_ALL_EXCEPT); // rint/rintf/rintl do set the FE_INEXACT flag.
   ASSERT_EQ(1234.0, rintl(1234.0L));
   ASSERT_TRUE((fetestexcept(FE_ALL_EXCEPT) & FE_INEXACT) == 0);
   ASSERT_EQ(1235.0, rintl(1234.01L));
   ASSERT_TRUE((fetestexcept(FE_ALL_EXCEPT) & FE_INEXACT) != 0);
+#endif
 
   fesetround(FE_TOWARDZERO); // rint/rintf obey the rounding mode.
   ASSERT_EQ(1234.0, rint(1234.01));
   ASSERT_EQ(1234.0f, rintf(1234.01f));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(1234.0, rintl(1234.01L));
+#endif
 }
 
 TEST(math, nearbyint) {
@@ -824,16 +944,20 @@ TEST(math, nearbyint) {
   ASSERT_EQ(1235.0f, nearbyintf(1234.01f));
   ASSERT_TRUE((fetestexcept(FE_ALL_EXCEPT) & FE_INEXACT) == 0);
 
+#ifndef SKIP_LONG_DOUBLE_TESTS
   feclearexcept(FE_ALL_EXCEPT); // nearbyint/nearbyintf/nearbyintl don't set the FE_INEXACT flag.
   ASSERT_EQ(1234.0, nearbyintl(1234.0L));
   ASSERT_TRUE((fetestexcept(FE_ALL_EXCEPT) & FE_INEXACT) == 0);
   ASSERT_EQ(1235.0, nearbyintl(1234.01L));
   ASSERT_TRUE((fetestexcept(FE_ALL_EXCEPT) & FE_INEXACT) == 0);
+#endif
 
   fesetround(FE_TOWARDZERO); // nearbyint/nearbyintf/nearbyintl obey the rounding mode.
   ASSERT_EQ(1234.0, nearbyint(1234.01));
   ASSERT_EQ(1234.0f, nearbyintf(1234.01f));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(1234.0, nearbyintl(1234.01L));
+#endif
 }
 
 TEST(math, lround) {
@@ -843,7 +967,9 @@ TEST(math, lround) {
   fesetround(FE_UPWARD); // lround ignores the rounding mode.
   ASSERT_EQ(1234, lround(1234.01));
   ASSERT_EQ(1234, lroundf(1234.01f));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(1234, lroundl(1234.01L));
+#endif
 }
 
 TEST(math, llround) {
@@ -853,7 +979,9 @@ TEST(math, llround) {
   fesetround(FE_UPWARD); // llround ignores the rounding mode.
   ASSERT_EQ(1234L, llround(1234.01));
   ASSERT_EQ(1234L, llroundf(1234.01f));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(1234L, llroundl(1234.01L));
+#endif
 }
 
 TEST(math, ilogb) {
@@ -873,11 +1001,13 @@ TEST(math, ilogbf) {
 }
 
 TEST(math, ilogbl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(FP_ILOGB0, ilogbl(0.0L));
   ASSERT_EQ(FP_ILOGBNAN, ilogbl(nanl("")));
   ASSERT_EQ(INT_MAX, ilogbl(HUGE_VALL));
   ASSERT_EQ(0L, ilogbl(1.0L));
   ASSERT_EQ(3L, ilogbl(10.0L));
+#endif
 }
 
 TEST(math, logb) {
@@ -897,11 +1027,13 @@ TEST(math, logbf) {
 }
 
 TEST(math, logbl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(-HUGE_VAL, logbl(0.0L));
   ASSERT_TRUE(isnan(logbl(nanl(""))));
   ASSERT_TRUE(isinf(logbl(HUGE_VALL)));
   ASSERT_EQ(0.0L, logbl(1.0L));
   ASSERT_EQ(3.0L, logbl(10.0L));
+#endif
 }
 
 TEST(math, log1p) {
@@ -919,10 +1051,12 @@ TEST(math, log1pf) {
 }
 
 TEST(math, log1pl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(-HUGE_VALL, log1pl(-1.0L));
   ASSERT_TRUE(isnan(log1pl(nanl(""))));
   ASSERT_TRUE(isinf(log1pl(HUGE_VALL)));
   ASSERT_DOUBLE_EQ(1.0L, log1pl(M_E - 1.0L));
+#endif
 }
 
 TEST(math, fdim) {
@@ -938,9 +1072,11 @@ TEST(math, fdimf) {
 }
 
 TEST(math, fdiml) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, fdiml(1.0L, 1.0L));
   ASSERT_DOUBLE_EQ(1.0L, fdiml(2.0L, 1.0L));
   ASSERT_DOUBLE_EQ(0.0L, fdiml(1.0L, 2.0L));
+#endif
 }
 
 TEST(math, round) {
@@ -974,12 +1110,14 @@ TEST(math, roundl) {
     fesetenv(FE_DFL_ENV);
   });
   fesetround(FE_TOWARDZERO); // roundl ignores the rounding mode and always rounds away from zero.
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(1.0L, roundl(0.5L));
   ASSERT_DOUBLE_EQ(-1.0L, roundl(-0.5L));
   ASSERT_DOUBLE_EQ(0.0L, roundl(0.0L));
   ASSERT_DOUBLE_EQ(-0.0L, roundl(-0.0L));
   ASSERT_TRUE(isnan(roundl(nanl(""))));
   ASSERT_DOUBLE_EQ(HUGE_VALL, roundl(HUGE_VALL));
+#endif
 }
 
 TEST(math, trunc) {
@@ -1013,12 +1151,14 @@ TEST(math, truncl) {
     fesetenv(FE_DFL_ENV);
   });
   fesetround(FE_UPWARD); // truncl ignores the rounding mode and always rounds toward zero.
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(1.0L, truncl(1.5L));
   ASSERT_DOUBLE_EQ(-1.0L, truncl(-1.5L));
   ASSERT_DOUBLE_EQ(0.0L, truncl(0.0L));
   ASSERT_DOUBLE_EQ(-0.0L, truncl(-0.0L));
   ASSERT_TRUE(isnan(truncl(nan(""))));
   ASSERT_DOUBLE_EQ(HUGE_VALL, truncl(HUGE_VALL));
+#endif
 }
 
 TEST(math, nextafter) {
@@ -1078,10 +1218,12 @@ TEST(math, copysignf) {
 }
 
 TEST(math, copysignl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, copysignl(0.0L, 1.0L));
   ASSERT_DOUBLE_EQ(-0.0L, copysignl(0.0L, -1.0L));
   ASSERT_DOUBLE_EQ(2.0L, copysignl(2.0L, 1.0L));
   ASSERT_DOUBLE_EQ(-2.0L, copysignl(2.0L, -1.0L));
+#endif
 }
 
 TEST(math, significand) {
@@ -1097,9 +1239,11 @@ TEST(math, significandf) {
 }
 
 TEST(math, significandl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(0.0L, significandl(0.0L));
   ASSERT_DOUBLE_EQ(1.2L, significandl(1.2L));
   ASSERT_DOUBLE_EQ(1.53125L, significandl(12.25L));
+#endif
 }
 
 TEST(math, scalb) {
@@ -1119,7 +1263,9 @@ TEST(math, scalblnf) {
 }
 
 TEST(math, scalblnl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(12.0L, scalblnl(3.0L, 2L));
+#endif
 }
 
 TEST(math, scalbn) {
@@ -1131,7 +1277,9 @@ TEST(math, scalbnf) {
 }
 
 TEST(math, scalbnl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(12.0L, scalbnl(3.0L, 2));
+#endif
 }
 
 TEST(math, gamma) {
@@ -1171,7 +1319,9 @@ TEST(math, lgammaf) {
 }
 
 TEST(math, lgammal) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(logl(24.0L), lgammal(5.0L));
+#endif
 }
 
 TEST(math, lgamma_r) {
@@ -1209,12 +1359,15 @@ TEST(math, lgammaf_r_17471883) {
 }
 
 TEST(math, lgammal_r) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   int sign;
   ASSERT_DOUBLE_EQ(log(24.0L), lgamma_r(5.0L, &sign));
   ASSERT_EQ(1, sign);
+#endif
 }
 
 TEST(math, lgammal_r_17471883) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   int sign;
 
   sign = 0;
@@ -1223,6 +1376,7 @@ TEST(math, lgammal_r_17471883) {
   sign = 0;
   ASSERT_DOUBLE_EQ(HUGE_VAL, lgammal_r(-0.0L, &sign));
   ASSERT_EQ(-1, sign);
+#endif
 }
 
 TEST(math, tgamma) {
@@ -1234,7 +1388,9 @@ TEST(math, tgammaf) {
 }
 
 TEST(math, tgammal) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(24.0L, tgammal(5.0L));
+#endif
 }
 
 TEST(math, j0) {
@@ -1310,9 +1466,11 @@ TEST(math, frexpf) {
 }
 
 TEST(math, frexpl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   int exp;
   long double ldr = frexpl(1024.0L, &exp);
   ASSERT_DOUBLE_EQ(1024.0L, scalbnl(ldr, exp));
+#endif
 }
 
 TEST(math, modf) {
@@ -1330,10 +1488,12 @@ TEST(math, modff) {
 }
 
 TEST(math, modfl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   long double ldi;
   long double ldf = modfl(123.75L, &ldi);
   ASSERT_DOUBLE_EQ(123.0L, ldi);
   ASSERT_DOUBLE_EQ(0.75L, ldf);
+#endif
 }
 
 TEST(math, remquo) {
@@ -1351,10 +1511,12 @@ TEST(math, remquof) {
 }
 
 TEST(math, remquol) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   int q;
   long double ld = remquol(13.0L, 4.0L, &q);
   ASSERT_DOUBLE_EQ(3L, q);
   ASSERT_DOUBLE_EQ(1.0L, ld);
+#endif
 }
 
 // https://code.google.com/p/android/issues/detail?id=6697
@@ -1369,7 +1531,9 @@ TEST(math, exp2_STRICT_ALIGN_OpenBSD_bug) {
   // http://svnweb.FreeBSD.org/base/head/lib/msun/src/math_private.h?revision=240827&view=markup
   ASSERT_DOUBLE_EQ(5.0, exp2(log2(5)));
   ASSERT_FLOAT_EQ(5.0f, exp2f(log2f(5)));
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_DOUBLE_EQ(5.0L, exp2l(log2l(5)));
+#endif
 }
 
 TEST(math, nextafterl_OpenBSD_bug) {
