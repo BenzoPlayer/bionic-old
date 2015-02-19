@@ -473,8 +473,10 @@ TEST(stdio, snprintf_e) {
   snprintf(buf, sizeof(buf), "%e", 1.5);
   EXPECT_STREQ("1.500000e+00", buf);
 
+#ifndef SKIP_LONG_DOUBLE_TESTS
   snprintf(buf, sizeof(buf), "%Le", 1.5l);
   EXPECT_STREQ("1.500000e+00", buf);
+#endif
 }
 
 TEST(stdio, snprintf_negative_zero_5084292) {

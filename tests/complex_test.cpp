@@ -171,7 +171,9 @@ TEST(complex, conjf) {
 
 extern "C" long double _Complex conjl(long double _Complex);
 TEST(complex, conjl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(0.0, conjl(0));
+#endif
 }
 
 extern "C" double _Complex cproj(double _Complex);
@@ -186,7 +188,9 @@ TEST(complex, cprojf) {
 
 extern "C" long double _Complex cprojl(long double _Complex);
 TEST(complex, cprojl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(0.0, cprojl(0));
+#endif
 }
 
 extern "C" double creal(double _Complex);
@@ -201,7 +205,9 @@ TEST(complex, crealf) {
 
 extern "C" long double creall(long double _Complex);
 TEST(complex, creall) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(0.0, creall(0));
+#endif
 }
 
 extern "C" double _Complex csin(double _Complex);
@@ -236,7 +242,9 @@ TEST(complex, csqrtf) {
 
 extern "C" long double _Complex csqrtl(long double _Complex);
 TEST(complex, csqrtl) {
+#ifndef SKIP_LONG_DOUBLE_TESTS
   ASSERT_EQ(0.0, csqrtl(0));
+#endif
 }
 
 extern "C" double _Complex ctan(double _Complex);
