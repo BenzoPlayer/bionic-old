@@ -1461,7 +1461,7 @@ LOCAL_ALLOW_UNDEFINED_SYMBOLS := true
 LOCAL_LDFLAGS := -Wl,--version-script,$(LOCAL_PATH)/version_script.txt
 
 # Don't install on release build
-LOCAL_MODULE_TAGS := eng debug
+LOCAL_MODULE_TAGS := eng
 LOCAL_SANITIZE := never
 LOCAL_NATIVE_COVERAGE := $(bionic_coverage)
 
@@ -1501,7 +1501,7 @@ LOCAL_SYSTEM_SHARED_LIBRARIES :=
 LOCAL_LDFLAGS := -Wl,--version-script,$(LOCAL_PATH)/version_script.txt
 
 # Don't install on release build
-LOCAL_MODULE_TAGS := eng debug
+LOCAL_MODULE_TAGS := eng
 LOCAL_SANITIZE := never
 LOCAL_NATIVE_COVERAGE := $(bionic_coverage)
 
