@@ -583,7 +583,7 @@ endif
 
 use_clang := $(USE_CLANG_PLATFORM_BUILD)
 ifeq ($(use_clang),)
-  use_clang := false
+  use_clang := true
 endif
 
 # Try to catch typical 32-bit assumptions that break with 64-bit pointers.
