@@ -23,6 +23,9 @@
 #include <malloc.h>
 #include <math.h>
 
+#include <algorithm>
+#include <vector>
+
 #include "buffer_tests.h"
 
 #if defined(__BIONIC__)
@@ -1413,4 +1416,24 @@ TEST(string, strnlen_147048) {
 TEST(string, mempcpy) {
   char dst[6];
   ASSERT_EQ(&dst[4], reinterpret_cast<char*>(mempcpy(dst, "hello", 4)));
+}
+
+// clang depends on the fact that a memcpy where src and dst is the same
+// still operates correctly. This test verifies that this assumption
+// holds true.
+// See https://llvm.org/bugs/show_bug.cgi?id=11763 for more information.
+static std::vector<uint8_t> g_memcpy_same_buffer;
+
+static void DoMemcpySameTest(uint8_t* buffer, size_t len) {
+  memcpy(buffer, g_memcpy_same_buffer.data(), len);
+  ASSERT_EQ(buffer, memcpy(buffer, buffer, len));
+  ASSERT_TRUE(memcmp(buffer, g_memcpy_same_buffer.data(), len) == 0);
+}
+
+TEST(STRING_TEST, memcpy_src_dst_same) {
+  g_memcpy_same_buffer.resize(MEDIUM);
+  for (size_t i = 0; i < MEDIUM; i++) {
+    g_memcpy_same_buffer[i] = i;
+  }
+  RunSingleBufferAlignTest(MEDIUM, DoMemcpySameTest);
 }
